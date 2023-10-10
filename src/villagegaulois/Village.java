@@ -54,10 +54,10 @@ public class Village {
                 }
             }
 
-            // Produit un tableau qui va stocker seulement étal qui vendent produit
+            //Produit un tableau qui va stocker seulement étal qui vendent produit
             Etal[] etalsVendantProduit = new Etal[nombreEtalsVendantProduit];
 
-            // Créer un tableau avec des étals qui vende les produits
+            //Créer un tableau avec des étals qui vende les produits
             int index = 0;
             
             for (Etal etal : etals) {
@@ -158,4 +158,53 @@ public class Village {
 		}
 		return chaine.toString();
 	}
+	
+	public String installerVendeur(Gaulois vendeur, String produit, int nbProduit) {
+        int indiceEtal = marche.trouverEtalLibre();
+ if (indiceEtal != -1) {
+            marche.utiliserEtal(indiceEtal, vendeur, produit, nbProduit);
+            return vendeur.getNom() + " vend " + produit;
+        } else 
+     {
+        	
+        	
+        	
+            return "Aucun étal est libre pour " + vendeur.getNom() + ".";
+      }
+    }
+
+    public String rechercherVendeursProduit(String produit) {
+        Etal[] etals = marche.trouverEtals(produit);
+
+        if (etals.length > 0) {
+            StringBuilder chaine = new StringBuilder("Ces vendeurs propose le produit " + produit + " :\n");
+
+            
+            for (int i = 0; i < etals.length; i++) {
+            chaine.append(etals[i].getVendeur().getNom() + " est dans l'étali " + i + " \n");
+            }
+
+            return chaine.toString();
+        } else {
+            return "Le produit n'est pas disponible " + produit + ".";
+        }
+    }
+
+    public Etal rechercherEtal(Gaulois vendeur) {
+        return marche.trouverVendeur(vendeur);
+    }public String partirVendeur(Gaulois vendeur) {
+        Etal etal = marche.trouverVendeur(vendeur);
+
+        if (etal != null) {
+            etal.libererEtal();
+            return vendeur.getNom() + "  est partie de son étal";
+        } else {
+            return vendeur.getNom() + " travaille plus dans son étal.";
+        }
+    }
+
+    public String afficherMarche() {
+        return marche.afficherMarche();
+    }
+	
 }
